@@ -85,7 +85,7 @@ class RobotDirection(object):
         gpio.digital_write(gpio.IN3, False)
         gpio.digital_write(gpio.IN4, False)
 
-    def forward(self):
+    def back(self):
         """
         Set the robot's movement direction to forward
         """
@@ -94,7 +94,7 @@ class RobotDirection(object):
         self.m1m2_forward()
         self.m3m4_forward()
 
-    def back(self):
+    def forward(self):
         """
         Set the robot's movement direction to backward
         """
@@ -103,7 +103,7 @@ class RobotDirection(object):
         self.m1m2_reverse()
         self.m3m4_reverse()
 
-    def left(self):
+    def right(self):
         """
         Set the robot's movement direction to turn left
         """
@@ -112,7 +112,7 @@ class RobotDirection(object):
         self.m1m2_reverse()
         self.m3m4_forward()
 
-    def right(self):
+    def left(self):
         """
         Set the robot's movement direction to turn right
         """
