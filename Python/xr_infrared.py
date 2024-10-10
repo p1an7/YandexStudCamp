@@ -1,14 +1,15 @@
+# coding:utf-8
 """
-树莓派WiFi无线视频小车机器人驱动源码
-作者：Sence
-版权所有：小R科技（深圳市小二极客科技有限公司www.xiao-r.com）；WIFI机器人网论坛 www.wifi-robots.com
-本代码可以自由修改，但禁止用作商业盈利目的！
-本代码已申请软件著作权保护，如有侵权一经发现立即起诉！
+Raspberry Pi WiFi Wireless Video Car Robot Driver Source Code
+Author: Sence
+Copyright: Xiaor Technology (Shenzhen Xiaor Technology Co., Ltd. www.xiao-r.com); WIFI Robot Forum www.wifi-robots.com
+This code can be freely modified, but it is prohibited to use it for commercial profit purposes!
+This code has applied for software copyright protection, and if any infringement is found, it will be prosecuted immediately!
 """
 """
 @version: python3.7
 @Author  : xiaor
-@Explain :红外
+@Explain : Infrared
 @contact :
 @Time    :2020/05/09
 @File    :xr_infrared.py
@@ -21,70 +22,69 @@ from xr_motor import RobotDirection
 
 go = RobotDirection()
 
-
 class Infrared(object):
-	def __init__(self):
-		pass
+    def __init__(self):
+        pass
 
-	def trackline(self):
-		"""
-		红外巡线
-		"""
-		cfg.LEFT_SPEED = 30
-		cfg.RIGHT_SPEED = 30
-		# print('ir_trackline run...')
-		# 两边都没有检测到黑线
-		if (gpio.digital_read(gpio.IR_L) == 0) and (gpio.digital_read(gpio.IR_R) == 0):  # 黑线为高，地面为低
-			go.forward()
-		# 右边红外传感器检测到黑线
-		elif (gpio.digital_read(gpio.IR_L) == 0) and (gpio.digital_read(gpio.IR_R) == 1):
-			go.right()
-		# 左边传感器检测到黑线
-		elif (gpio.digital_read(gpio.IR_L) == 1) and (gpio.digital_read(gpio.IR_R) == 0):
-			go.left()
-		# 两边同时检测到黑线
-		elif (gpio.digital_read(gpio.IR_L) == 1) and (gpio.digital_read(gpio.IR_R) == 1):
-			go.stop()
+    def trackline(self):
+        """
+        Infrared line tracking
+        """
+        cfg.LEFT_SPEED = 30
+        cfg.RIGHT_SPEED = 30
+        # print('ir_trackline run...')
+        # If neither side detects a black line
+        if (gpio.digital_read(gpio.IR_L) == 0) and (gpio.digital_read(gpio.IR_R) == 0):  # Black line is high, ground is low
+            go.forward()
+        # If the right infrared sensor detects a black line
+        elif (gpio.digital_read(gpio.IR_L) == 0) and (gpio.digital_read(gpio.IR_R) == 1):
+            go.right()
+        # If the left sensor detects a black line
+        elif (gpio.digital_read(gpio.IR_L) == 1) and (gpio.digital_read(gpio.IR_R) == 0):
+            go.left()
+        # If both sides detect a black line
+        elif (gpio.digital_read(gpio.IR_L) == 1) and (gpio.digital_read(gpio.IR_R) == 1):
+            go.stop()
 
-	def iravoid(self):
-		"""
-		红外避障
-		"""
-		if gpio.digital_read(gpio.IR_M) == 0:		# 如果中间传感器校测到物体
-			go.stop()
-		# print("红外避障")
+    def iravoid(self):
+        """
+        Infrared obstacle avoidance
+        """
+        if gpio.digital_read(gpio.IR_M) == 0:  # If the middle sensor detects an object
+            go.stop()
+        # print("Infrared obstacle avoidance")
 
-	def irfollow(self):
-		"""
-		红外跟随
-		"""
-		cfg.LEFT_SPEED = 30
-		cfg.RIGHT_SPEED = 30
-		if  (gpio.digital_read(gpio.IRF_L) == 0 and gpio.digital_read(gpio.IRF_R) == 0 and gpio.digital_read(gpio.IR_M) == 1):
-			go.stop()				# 停止：左右检测到障碍物或全都检测不到障碍物
-		else:
-			if gpio.digital_read(gpio.IRF_L) == 1 and gpio.digital_read(gpio.IRF_R) == 0:
-				cfg.LEFT_SPEED = 50
-				cfg.RIGHT_SPEED = 50
-				go.right()			# 左边传感器未检测到障碍物+右边传感器检测到障碍物
-			elif gpio.digital_read(gpio.IRF_L) == 0 and gpio.digital_read(gpio.IRF_R) == 1:
-				cfg.LEFT_SPEED = 50
-				cfg.RIGHT_SPEED = 50
-				go.left()			# 左边传感器检测到障碍物+右边传感器未检测到障碍物
-			elif (gpio.digital_read(gpio.IRF_L) == 1 and gpio.digital_read(gpio.IRF_R) == 1) or (gpio.digital_read(gpio.IRF_L) == 1 and gpio.digital_read(gpio.IRF_R) == 1):
-				cfg.LEFT_SPEED = 50
-				cfg.RIGHT_SPEED = 50
-				go.forward()		# 前进：只有中间传感器检测到障碍物
+    def irfollow(self):
+        """
+        Infrared following
+        """
+        cfg.LEFT_SPEED = 30
+        cfg.RIGHT_SPEED = 30
+        if (gpio.digital_read(gpio.IRF_L) == 0 and gpio.digital_read(gpio.IRF_R) == 0 and gpio.digital_read(gpio.IR_M) == 1):
+            go.stop()  # Stop: Left and right detect obstacles or all do not detect obstacles
+        else:
+            if gpio.digital_read(gpio.IRF_L) == 1 and gpio.digital_read(gpio.IRF_R) == 0:
+                cfg.LEFT_SPEED = 50
+                cfg.RIGHT_SPEED = 50
+                go.right()  # Left sensor does not detect an obstacle + right sensor detects an obstacle
+            elif gpio.digital_read(gpio.IRF_L) == 0 and gpio.digital_read(gpio.IRF_R) == 1:
+                cfg.LEFT_SPEED = 50
+                cfg.RIGHT_SPEED = 50
+                go.left()  # Left sensor detects an obstacle + right sensor does not detect an obstacle
+            elif (gpio.digital_read(gpio.IRF_L) == 1 and gpio.digital_read(gpio.IRF_R) == 1) or (gpio.digital_read(gpio.IRF_L) == 1 and gpio.digital_read(gpio.IRF_R) == 1):
+                cfg.LEFT_SPEED = 50
+                cfg.RIGHT_SPEED = 50
+                go.forward()  # Forward: Only the middle sensor detects an obstacle
 
-	def avoiddrop(self):
-		"""
-		红外防跌落
-		"""
-		cfg.LEFT_SPEED = 25
-		cfg.RIGHT_SPEED = 25
-		if (gpio.digital_read(gpio.IR_L) == 0) and (gpio.digital_read(gpio.IR_R) == 0):  # 俩个红外传感器都探测到地面的时候
-			cfg.AVOIDDROP_CHANGER = 1		# 标志位置1，串口解析中方向判断此标志
-		else:
-			if cfg.AVOIDDROP_CHANGER == 1: 	# 只有当上一次得到状态是正常状态时才会运行停止，避免重复执行停止无法再进行遥控
-				go.stop()
-				cfg.AVOIDDROP_CHANGER = 0
+    def avoiddrop(self):
+        """
+        Infrared anti-drop
+        """
+        cfg.LEFT_SPEED = 25
+        cfg.RIGHT_SPEED = 25
+        if (gpio.digital_read(gpio.IR_L) == 0) and (gpio.digital_read(gpio.IR_R) == 0):  # When both infrared sensors detect the ground
+            cfg.AVOIDDROP_CHANGER = 1  # Set the flag to 1, the serial port parsing direction judges this flag
+        else:
+            if cfg.AVOIDDROP_CHANGER == 1:  # Only when the previous state is normal will the stop be executed, avoiding repeated execution of the stop and unable to proceed with remote control
+                go.stop()
+                cfg.AVOIDDROP_CHANGER = 0
