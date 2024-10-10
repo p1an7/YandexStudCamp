@@ -1,15 +1,15 @@
 # coding:utf-8
 """
-树莓派WiFi无线视频小车机器人驱动源码
-作者：Sence
-版权所有：小R科技（深圳市小二极客科技有限公司www.xiao-r.com）；WIFI机器人网论坛 www.wifi-robots.com
-本代码可以自由修改，但禁止用作商业盈利目的！
-本代码已申请软件著作权保护，如有侵权一经发现立即起诉！
+Raspberry Pi WiFi Wireless Video Car Robot Driver Source Code
+Author: Sence
+Copyright: XiaoR Technology (Shenzhen XiaoR Technology Co., Ltd. www.xiao-r.com); WIFI Robot Forum www.wifi-robots.com
+This code can be freely modified, but commercial use for profit is prohibited!
+This code has been applied for software copyright protection, and legal action will be taken immediately upon discovery of infringement!
 """
 """
 @version: python3.7
 @Author  : xiaor
-@Explain :主线程
+@Explain :Main thread
 @Time    :2020/05/09
 @File    :xr_startmain.py
 @Software: PyCharm
@@ -54,235 +54,231 @@ i2c = I2c()
 from xr_voice import Voice
 voice = Voice()
 
-
 def cruising_mode():
-	"""
-	模式切换函数
-	:return:none
-	"""
-	# print('pre_CRUISING_FLAG：{}'.format(cfg.PRE_CRUISING_FLAG))
-	time.sleep(0.001)
-	if cfg.PRE_CRUISING_FLAG != cfg.CRUISING_FLAG:  # 如果循环模式改变
-		cfg.LEFT_SPEED = cfg.LASRT_LEFT_SPEED  # 在切换其他模式的时候,恢复上次保存的速度值
-		cfg.RIGHT_SPEED = cfg.LASRT_RIGHT_SPEED
-		if cfg.PRE_CRUISING_FLAG != cfg.CRUISING_SET['normal']:	 # 如果循环模式改变，且上次的模式不是正常模式
-			go.stop()	  # 先停止小车
-		cfg.PRE_CRUISING_FLAG = cfg.CRUISING_FLAG	 # 重新赋值上次模式标志位
+    """
+    Mode switching function
+    :return:none
+    """
+    # print('pre_CRUISING_FLAG：{}'.format(cfg.PRE_CRUISING_FLAG))
+    time.sleep(0.001)
+    if cfg.PRE_CRUISING_FLAG != cfg.CRUISING_FLAG:  # If the loop mode changes
+        cfg.LEFT_SPEED = cfg.LASRT_LEFT_SPEED  # When switching to other modes, restore the previously saved speed value
+        cfg.RIGHT_SPEED = cfg.LASRT_RIGHT_SPEED
+        if cfg.PRE_CRUISING_FLAG != cfg.CRUISING_SET['normal']:	 # If the loop mode changes and the previous mode is not normal
+            go.stop()	  # Stop the car first
+        cfg.PRE_CRUISING_FLAG = cfg.CRUISING_FLAG	 # Reassign the previous mode flag
 
-	if cfg.CRUISING_FLAG == cfg.CRUISING_SET['irfollow']:  # 进入红外跟随模式
-		# print("Infrared.irfollow")
-		infrared.irfollow()
-		time.sleep(0.05)
+    if cfg.CRUISING_FLAG == cfg.CRUISING_SET['irfollow']:  # Enter infrared follow mode
+        # print("Infrared.irfollow")
+        infrared.irfollow()
+        time.sleep(0.05)
 
-	elif cfg.CRUISING_FLAG == cfg.CRUISING_SET['trackline']:  # 进入红外巡线模式
-		# print("Infrared.trackline")
-		infrared.trackline()
-		time.sleep(0.05)
+    elif cfg.CRUISING_FLAG == cfg.CRUISING_SET['trackline']:  # Enter infrared line tracking mode
+        # print("Infrared.trackline")
+        infrared.trackline()
+        time.sleep(0.05)
 
-	elif cfg.CRUISING_FLAG == cfg.CRUISING_SET['avoiddrop']:  # 进入红外防掉落模式
-		# print("Infrared.avoiddrop")
-		infrared.avoiddrop()
-		time.sleep(0.05)
+    elif cfg.CRUISING_FLAG == cfg.CRUISING_SET['avoiddrop']:  # Enter infrared anti-drop mode
+        # print("Infrared.avoiddrop")
+        infrared.avoiddrop()
+        time.sleep(0.05)
 
-	elif cfg.CRUISING_FLAG == cfg.CRUISING_SET['avoidbyragar']:  # 进入超声波壁障模式
-		# print("Ultrasonic.avoidbyragar")
-		ultrasonic.avoidbyragar()
-		time.sleep(0.5)
+    elif cfg.CRUISING_FLAG == cfg.CRUISING_SET['avoidbyragar']:  # Enter ultrasonic obstacle avoidance mode
+        # print("Ultrasonic.avoidbyragar")
+        ultrasonic.avoidbyragar()
+        time.sleep(0.5)
 
-	elif cfg.CRUISING_FLAG == cfg.CRUISING_SET['send_distance']:  # 进入超声波测距模式
-		# print("Ultrasonic.send_distance")
-		ultrasonic.send_distance()
-		time.sleep(1)
+    elif cfg.CRUISING_FLAG == cfg.CRUISING_SET['send_distance']:  # Enter ultrasonic distance measurement mode
+        # print("Ultrasonic.send_distance")
+        ultrasonic.send_distance()
+        time.sleep(1)
 
-	elif cfg.CRUISING_FLAG == cfg.CRUISING_SET['maze']:  # 进入超声波走迷宫模式
-		# print("Ultrasonic.maze")
-		ultrasonic.maze()
-		time.sleep(0.05)
+    elif cfg.CRUISING_FLAG == cfg.CRUISING_SET['maze']:  # Enter ultrasonic maze walking mode
+        # print("Ultrasonic.maze")
+        ultrasonic.maze()
+        time.sleep(0.05)
 
-	elif cfg.CRUISING_FLAG == cfg.CRUISING_SET['camera_normal']:  # 进入调试模式
-		time.sleep(2)
-		print("CRUISING_FLAG == 7")
-		# path_sh = 'sh ' + os.path.split(os.path.abspath(__file__))[0] + '/start_mjpg_streamer.sh &'
-		#call("%s" % path_sh, shell=True)
-		cfg.CRUISING_FLAG = cfg.CRUISING_SET['normal']
+    elif cfg.CRUISING_FLAG == cfg.CRUISING_SET['camera_normal']:  # Enter debug mode
+        time.sleep(2)
+        print("CRUISING_FLAG == 7")
+        # path_sh = 'sh ' + os.path.split(os.path.abspath(__file__))[0] + '/start_mjpg_streamer.sh &'
+        #call("%s" % path_sh, shell=True)
+        cfg.CRUISING_FLAG = cfg.CRUISING_SET['normal']
 
-	elif cfg.CRUISING_FLAG == cfg.CRUISING_SET['camera_linepatrol']:  # 进入摄像头循迹操作
-		function.linepatrol_control()
-		time.sleep(0.01)
+    elif cfg.CRUISING_FLAG == cfg.CRUISING_SET['camera_linepatrol']:  # Enter camera line tracking operation
+        function.linepatrol_control()
+        time.sleep(0.01)
 
-	elif cfg.CRUISING_FLAG == cfg.CRUISING_SET['qrcode_detection']:  # 进入摄像头二维码检测识别应用
-		function.qrcode_control()
-		time.sleep(0.01)
-	elif cfg.CRUISING_FLAG == cfg.CRUISING_SET['normal']:
-		if cfg.VOICE_MOD == cfg.VOICE_MOD_SET['normal']:
-			time.sleep(0.001)
-		elif cfg.VOICE_MOD == cfg.VOICE_MOD_SET['openlight']:	 # 打开灯光
-			car_light.open_light()
-			cfg.VOICE_MOD = cfg.VOICE_MOD_SET['normal']
-		elif cfg.VOICE_MOD == cfg.VOICE_MOD_SET['closelight']:	 # 关闭灯光
-			car_light.close_light()
-			cfg.VOICE_MOD = cfg.VOICE_MOD_SET['normal']
-		elif cfg.VOICE_MOD == cfg.VOICE_MOD_SET['forward']:		# 往前进
-			go.forward()
-			time.sleep(2)
-			go.stop()
-			cfg.VOICE_MOD = cfg.VOICE_MOD_SET['normal']
-		elif cfg.VOICE_MOD == cfg.VOICE_MOD_SET['back']:		# 往后退
-			go.back()
-			time.sleep(2)
-			go.stop()
-			cfg.VOICE_MOD = cfg.VOICE_MOD_SET['normal']
-		elif cfg.VOICE_MOD == cfg.VOICE_MOD_SET['left']:		# 往左转
-			cfg.LIGHT_STATUS = cfg.TURN_LEFT
-			go.left()
-			time.sleep(0.8)
-			go.stop()
-			cfg.LIGHT_STATUS = cfg.STOP
-			cfg.VOICE_MOD = cfg.VOICE_MOD_SET['normal']
-		elif cfg.VOICE_MOD == cfg.VOICE_MOD_SET['right']:		# 往右转
-			cfg.LIGHT_STATUS = cfg.TURN_RIGHT
-			go.right()
-			time.sleep(0.8)
-			go.stop()
-			cfg.LIGHT_STATUS = cfg.STOP
-			cfg.VOICE_MOD = cfg.VOICE_MOD_SET['normal']
-		elif cfg.VOICE_MOD == cfg.VOICE_MOD_SET['stop']:		# 请停止
-			go.stop()
-			cfg.VOICE_MOD = cfg.VOICE_MOD_SET['normal']
-		elif cfg.VOICE_MOD == cfg.VOICE_MOD_SET['nodhead']:		# 请点头
-			for i in range(1, 4):
-				if i:
-					for j in range(90, 0, -5):
-						print(j)
-						servo.set(8, j)
-						time.sleep(0.04)
-					time.sleep(0.1)
-			servo.set(8, 0)
-			cfg.VOICE_MOD = cfg.VOICE_MOD_SET['normal']
-		elif cfg.VOICE_MOD == cfg.VOICE_MOD_SET['shakehead']:	 # 请摇头
-			for i in range(1, 3):
-				if i:
-					for j in range(45, 135, 5):
-						# print(j)
-						servo.set(7, j)
-						time.sleep(0.02)
-					time.sleep(0.1)
-					for j in range(135, 45, -5):
-						# print(j)
-						servo.set(7, j)
-						time.sleep(0.02)
-					time.sleep(0.1)
-			servo.set(7, 90)
-			cfg.VOICE_MOD = cfg.VOICE_MOD_SET['normal']
+    elif cfg.CRUISING_FLAG == cfg.CRUISING_SET['qrcode_detection']:  # Enter camera QR code detection recognition application
+        function.qrcode_control()
+        time.sleep(0.01)
+    elif cfg.CRUISING_FLAG == cfg.CRUISING_SET['normal']:
+        if cfg.VOICE_MOD == cfg.VOICE_MOD_SET['normal']:
+            time.sleep(0.001)
+        elif cfg.VOICE_MOD == cfg.VOICE_MOD_SET['openlight']:	 # Turn on lights
+            car_light.open_light()
+            cfg.VOICE_MOD = cfg.VOICE_MOD_SET['normal']
+        elif cfg.VOICE_MOD == cfg.VOICE_MOD_SET['closelight']:	 # Turn off lights
+            car_light.close_light()
+            cfg.VOICE_MOD = cfg.VOICE_MOD_SET['normal']
+        elif cfg.VOICE_MOD == cfg.VOICE_MOD_SET['forward']:		# Move forward
+            go.forward()
+            time.sleep(2)
+            go.stop()
+            cfg.VOICE_MOD = cfg.VOICE_MOD_SET['normal']
+        elif cfg.VOICE_MOD == cfg.VOICE_MOD_SET['back']:		# Move backward
+            go.back()
+            time.sleep(2)
+            go.stop()
+            cfg.VOICE_MOD = cfg.VOICE_MOD_SET['normal']
+        elif cfg.VOICE_MOD == cfg.VOICE_MOD_SET['left']:		# Turn left
+            cfg.LIGHT_STATUS = cfg.TURN_LEFT
+            go.left()
+            time.sleep(0.8)
+            go.stop()
+            cfg.LIGHT_STATUS = cfg.STOP
+            cfg.VOICE_MOD = cfg.VOICE_MOD_SET['normal']
+        elif cfg.VOICE_MOD == cfg.VOICE_MOD_SET['right']:		# Turn right
+            cfg.LIGHT_STATUS = cfg.TURN_RIGHT
+            go.right()
+            time.sleep(0.8)
+            go.stop()
+            cfg.LIGHT_STATUS = cfg.STOP
+            cfg.VOICE_MOD = cfg.VOICE_MOD_SET['normal']
+        elif cfg.VOICE_MOD == cfg.VOICE_MOD_SET['stop']:		# Stop
+            go.stop()
+            cfg.VOICE_MOD = cfg.VOICE_MOD_SET['normal']
+        elif cfg.VOICE_MOD == cfg.VOICE_MOD_SET['nodhead']:		# Nod
+            for i in range(1, 4):
+                if i:
+                    for j in range(90, 0, -5):
+                        print(j)
+                        servo.set(8, j)
+                        time.sleep(0.04)
+                    time.sleep(0.1)
+            servo.set(8, 0)
+            cfg.VOICE_MOD = cfg.VOICE_MOD_SET['normal']
+        elif cfg.VOICE_MOD == cfg.VOICE_MOD_SET['shakehead']:	 # Shake head
+            for i in range(1, 3):
+                if i:
+                    for j in range(45, 135, 5):
+                        # print(j)
+                        servo.set(7, j)
+                        time.sleep(0.02)
+                    time.sleep(0.1)
+                    for j in range(135, 45, -5):
+                        # print(j)
+                        servo.set(7, j)
+                        time.sleep(0.02)
+                    time.sleep(0.1)
+            servo.set(7, 90)
+            cfg.VOICE_MOD = cfg.VOICE_MOD_SET['normal']
 
-	else:
-		time.sleep(0.001)
-
+    else:
+        time.sleep(0.001)
 
 def status():
-	"""
-	状态更新函数，如车灯，OLED需要定时更新的功能都可以写在这里
-	:return:
-	"""
-	if cfg.PROGRAM_ABLE:	 # 如果系统程序标志启动
-		if cfg.LOOPS > 30:   # 更新函数是每隔0.1秒进入一次，这里等于0.3秒检测车子方向并根据车子方向开启对应转向灯
-			if cfg.LIGHT_STATUS == cfg.TURN_FORWARD:
-				cfg.LIGHT_LAST_STATUS = cfg.LIGHT_STATUS	 # 没进入控制方向时都讲此次状态赋值给上一次状态
-				car_light.forward_turn_light()
-			elif cfg.LIGHT_STATUS == cfg.TURN_BACK:
-				cfg.LIGHT_LAST_STATUS = cfg.LIGHT_STATUS
-				car_light.back_turn_light()
-			elif cfg.LIGHT_STATUS == cfg.TURN_LEFT:
-				cfg.LIGHT_LAST_STATUS = cfg.LIGHT_STATUS
-				car_light.left_turn_light()
-			elif cfg.LIGHT_STATUS == cfg.TURN_RIGHT:
-				cfg.LIGHT_LAST_STATUS = cfg.LIGHT_STATUS
-				car_light.right_turn_light()
-			elif cfg.LIGHT_STATUS == cfg.STOP and cfg.LIGHT_LAST_STATUS != cfg.LIGHT_STATUS:	 # 让STOP灯只在一直STOP情况下只执行一次
-				cfg.LIGHT_LAST_STATUS = cfg.LIGHT_STATUS
-				if cfg.LIGHT_OPEN_STATUS == 1:
-					car_light.open_light()
-				else:
-					car_light.close_light()
-		if cfg.LOOPS > 100:  		# 定时器设定的是0.01秒进入一次，大于100表明自增了100次即1秒时间，一些不需要更新太快的数据显示函数可放这里
-			cfg.LOOPS = 0			# 清除LOOPS
-			power.show_vol()    	# 电量灯条电量显示
-			try:
-				oled.disp_cruising_mode()  	# oled显示模式
-			except:
-				print('oled initialization fail')
+    """
+    Status update function, such as car lights, OLED need to be updated periodically, can be written here
+    :return:
+    """
+    if cfg.PROGRAM_ABLE:	 # If the system program flag is enabled
+        if cfg.LOOPS > 30:   # The update function is entered every 0.1 seconds, here it is 0.3 seconds to detect the car direction and turn on the corresponding turn signal light based on the car direction
+            if cfg.LIGHT_STATUS == cfg.TURN_FORWARD:
+                cfg.LIGHT_LAST_STATUS = cfg.LIGHT_STATUS	 # Every time you enter the control direction, assign this status to the previous status
+                car_light.forward_turn_light()
+            elif cfg.LIGHT_STATUS == cfg.TURN_BACK:
+                cfg.LIGHT_LAST_STATUS = cfg.LIGHT_STATUS
+                car_light.back_turn_light()
+            elif cfg.LIGHT_STATUS == cfg.TURN_LEFT:
+                cfg.LIGHT_LAST_STATUS = cfg.LIGHT_STATUS
+                car_light.left_turn_light()
+            elif cfg.LIGHT_STATUS == cfg.TURN_RIGHT:
+                cfg.LIGHT_LAST_STATUS = cfg.LIGHT_STATUS
+                car_light.right_turn_light()
+            elif cfg.LIGHT_STATUS == cfg.STOP and cfg.LIGHT_LAST_STATUS != cfg.LIGHT_STATUS:	 # Let the STOP light only execute once in the continuous STOP situation
+                cfg.LIGHT_LAST_STATUS = cfg.LIGHT_STATUS
+                if cfg.LIGHT_OPEN_STATUS == 1:
+                    car_light.open_light()
+                else:
+                    car_light.close_light()
+        if cfg.LOOPS > 100:  		# The timer is set to enter every 0.01 seconds, greater than 100 means it has incremented 100 times, i.e., 1 second, some data display functions that do not need to be updated too quickly can be placed here
+            cfg.LOOPS = 0			# Clear LOOPS
+            power.show_vol()    	# Power level bar power display
+            try:
+                oled.disp_cruising_mode()  	# oled display mode
+            except:
+                print('oled initialization fail')
 
-	loops = cfg.LOOPS   # 通过赋值给一个中间值来自增
-	loops = loops + 1   # 自增
-	cfg.LOOPS = loops   # 赋值回去
+    loops = cfg.LOOPS   # Assign to an intermediate value for increment
+    loops = loops + 1   # Increment
+    cfg.LOOPS = loops   # Assign back
 
-	loops = cfg.PS2_LOOPS   # 通过赋值给一个中间值来自增
-	loops = loops + 1   # 自增
-	cfg.PS2_LOOPS = loops   # 赋值回去
+    loops = cfg.PS2_LOOPS   # Assign to an intermediate value for increment
+    loops = loops + 1   # Increment
+    cfg.PS2_LOOPS = loops   # Assign back
 
-	Timer(0.01, status).start()  # 每进入一次需要重新开启定时器
-
+    Timer(0.01, status).start()  # Every time you enter, you need to restart the timer
 
 if __name__ == '__main__':
-	'''
-	主程序入口
-	'''
-	print("....wifirobots start!...")
-
-	os.system("sudo hciconfig hci0 name XiaoRGEEK")  # 设置蓝牙名称
-	time.sleep(0.1)
-	os.system("sudo hciconfig hci0 reset")  # 重启蓝牙
-	time.sleep(0.3)
-	os.system("sudo hciconfig hci0 piscan")  # 恢复蓝牙扫描功能
-	time.sleep(0.2)
-	print("now bluetooth discoverable")
-
-	servo.restore()  		# 复位舵机
-	try:
-		oled.disp_default()		# oled显示初始化信息
-	except:
-		print('oled initialization fail')
-car_light.init_led() 	# 车灯秀
-time.sleep(0.1)
-
-threads = []  # 创建一个线程序列
-t1 = threading.Thread(target=camera.run, args=())  # 摄像头数据收集处理线程
-threads.append(t1)  # 将线程添加到线程队列中
-t2 = threading.Thread(target=socket.bluetooth_server, args=())  # 新建蓝牙线程
-threads.append(t2)
-t3 = threading.Thread(target=socket.tcp_server, args=())  # 新建wifi tcp通信线程
-threads.append(t3)
-t4 = threading.Thread(target=voice.run, args=())  	# 语音模块线程
-threads.append(t4)
-
-ti = threading.Timer(0.1, status)		# 新建一个定时器
-ti.start()		# 开启定时器
-
-path_sh = 'sh ' + os.path.split(os.path.abspath(__file__))[0] + '/start_mjpg_streamer.sh &'  # start_mjpg_streamer启动指令
-call("%s" % path_sh, shell=True)  # 新开一个进程运行start_mjpg_streamer
-time.sleep(1)
-
-for t in threads:
-	#print("theads %s ready to start..." % t)
-	t.setDaemon(True)  # 将线程设置为守护线程
-	t.start()  # 启动线程
-	time.sleep(0.05)
-# print("theads %s start..." %t)
-print("all theads start...>>>>>>>>>>>>")
-servo.store()		# 恢复小车保存的舵机角度
-go.motor_init()		# 恢复小车保存的电机速度
-while True:
-	'''
-    主程序循环
     '''
-	try:
-		if cfg.PROGRAM_ABLE:	 # 如果系统程序标志启动
-			cfg.PS2_LOOPS = cfg.PS2_LOOPS + 1
-			if cfg.PS2_LOOPS > 20:
-				ps2.control()
-				cfg.PS2_LOOPS = 0
-		cruising_mode() 										# 主线程中运行模式切换功能
-	except Exception as e:										# 捕获并打印出错信息
-		time.sleep(0.1)
-		print('cruising_mod error:', e)
+    Main program entry
+    '''
+    print("....wifirobots start!...")
 
+    os.system("sudo hciconfig hci0 name XiaoRGEEK")  # Set Bluetooth name
+    time.sleep(0.1)
+    os.system("sudo hciconfig hci0 reset")  # Restart Bluetooth
+    time.sleep(0.3)
+    os.system("sudo hciconfig hci0 piscan")  # Restore Bluetooth scanning function
+    time.sleep(0.2)
+    print("now bluetooth discoverable")
+
+    servo.restore()  		# Reset servo
+    try:
+        oled.disp_default()		# oled display initialization information
+    except:
+        print('oled initialization fail')
+    car_light.init_led() 	# Car light show
+    time.sleep(0.1)
+
+    threads = []  # Create a thread list
+    t1 = threading.Thread(target=camera.run, args=())  # Camera data collection processing thread
+    threads.append(t1)  # Add the thread to the thread queue
+    t2 = threading.Thread(target=socket.bluetooth_server, args=())  # New Bluetooth thread
+    threads.append(t2)
+    t3 = threading.Thread(target=socket.tcp_server, args=())  # New wifi tcp communication thread
+    threads.append(t3)
+    t4 = threading.Thread(target=voice.run, args=())  	# Voice module thread
+    threads.append(t4)
+
+    ti = threading.Timer(0.1, status)		# New timer
+    ti.start()		# Start timer
+
+    path_sh = 'sh ' + os.path.split(os.path.abspath(__file__))[0] + '/start_mjpg_streamer.sh &'  # start_mjpg_streamer startup command
+    call("%s" % path_sh, shell=True)  # Run start_mjpg_streamer in a new process
+    time.sleep(1)
+
+    for t in threads:
+        #print("theads %s ready to start..." % t)
+        t.setDaemon(True)  # Set the thread as a daemon thread
+        t.start()  # Start the thread
+        time.sleep(0.05)
+    # print("theads %s start..." %t)
+    print("all theads start...>>>>>>>>>>>>")
+    servo.store()		# Restore the car's saved servo angle
+    go.motor_init()		# Restore the car's saved motor speed
+    while True:
+        '''
+        Main program loop
+        '''
+        try:
+            if cfg.PROGRAM_ABLE:	 # If the system program flag is enabled
+                cfg.PS2_LOOPS = cfg.PS2_LOOPS + 1
+                if cfg.PS2_LOOPS > 20:
+                    ps2.control()
+                    cfg.PS2_LOOPS = 0
+            cruising_mode() 										# Run mode switching function in the main thread
+        except Exception as e:										# Capture and print error information
+            time.sleep(0.1)
+            print('cruising_mod error:', e)
