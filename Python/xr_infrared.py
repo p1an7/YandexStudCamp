@@ -1,4 +1,4 @@
-# coding:utf-8
+ # coding:utf-8
 """
 Raspberry Pi WiFi Wireless Video Car Robot Driver Source Code
 Author: Sence
@@ -88,3 +88,6 @@ class Infrared(object):
             if cfg.AVOIDDROP_CHANGER == 1:  # Only when the previous state is normal will the stop be executed, avoiding repeated execution of the stop and unable to proceed with remote control
                 go.stop()
                 cfg.AVOIDDROP_CHANGER = 0
+while True:
+    a = gpio.digital_read(gpio.IR_M)
+    print(a)
