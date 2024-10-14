@@ -89,7 +89,7 @@ class Movement(object):
         self.set_speed(2, cfg.RIGHT_SPEED)
         self.m1m2_reverse()
         self.m3m4_reverse()
-    def forward(self):
+    def forwardslow(self):
         """
         Set the robot's movement direction to backward
         """
