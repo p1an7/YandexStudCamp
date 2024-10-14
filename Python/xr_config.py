@@ -98,7 +98,7 @@ BT_SERVER.listen(1)
 
 # TCP server parameter settings
 TCP_SERVER = socket(AF_INET, SOCK_STREAM)
-TCP_SERVER.bind(('', 2001))		# WIFI binds to port 2001
+TCP_SERVER.bind(('', 2001))		# WIFI binds to port 2002
 TCP_SERVER.listen(1)
 
 # PS2 controller button definitions

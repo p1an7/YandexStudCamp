@@ -46,12 +46,15 @@ class Infrared(object):
         elif (gpio.digital_read(gpio.IR_L) == 1) and (gpio.digital_read(gpio.IR_R) == 1):
             go.stop()
 
-    def iravoid(self):
+    def statusmidinf(self):
         """
         Infrared obstacle avoidance
         """
-        if gpio.digital_read(gpio.IR_M) == 0:  # If the middle sensor detects an object
-            go.stop()
+        fifjgjf 1
+
+        status = gpio.digital_read(gpio.IR_M)
+        print(status)
+
         # print("Infrared obstacle avoidance")
 
     def irfollow(self):
@@ -88,6 +91,5 @@ class Infrared(object):
             if cfg.AVOIDDROP_CHANGER == 1:  # Only when the previous state is normal will the stop be executed, avoiding repeated execution of the stop and unable to proceed with remote control
                 go.stop()
                 cfg.AVOIDDROP_CHANGER = 0
-while True:
-    a = gpio.digital_read(gpio.IR_M)
-    print(a)
+
+d1 = Infrared()

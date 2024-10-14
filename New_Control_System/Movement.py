@@ -89,13 +89,29 @@ class Movement(object):
         self.set_speed(2, cfg.RIGHT_SPEED)
         self.m1m2_reverse()
         self.m3m4_reverse()
-
+    def forward(self):
+        """
+        Set the robot's movement direction to backward
+        """
+        self.set_speed(1, 50)
+        self.set_speed(2, 50)
+        self.m1m2_reverse()
+        self.m3m4_reverse()
     def right(self):
         """
         Set the robot's movement direction to turn left
         """
         self.set_speed(1, cfg.LEFT_SPEED)
         self.set_speed(2, cfg.RIGHT_SPEED)
+        self.m1m2_reverse()
+        self.m3m4_forward()
+
+    def rightslow(self):
+        """
+        Set the robot's movement direction to turn left
+        """
+        self.set_speed(1, 40)
+        self.set_speed(2,40)
         self.m1m2_reverse()
         self.m3m4_forward()
 
@@ -107,7 +123,14 @@ class Movement(object):
         self.set_speed(2, cfg.RIGHT_SPEED)
         self.m1m2_forward()
         self.m3m4_reverse()
-
+    def leftslow(self):
+        """
+        Set the robot's movement direction to turn right
+        """
+        self.set_speed(1, 40)
+        self.set_speed(2, 40)
+        self.m1m2_forward()
+        self.m3m4_reverse()
     def stop(self):
         """
         Set the robot's movement direction to stop
