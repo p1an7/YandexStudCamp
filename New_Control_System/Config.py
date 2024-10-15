@@ -1,6 +1,8 @@
 from socket import *
 import numpy as np
 
+from Movement import Movement
+
 CRUISING_FLAG = 0  # Current loop mode, different flags enter different modes, changed by the upper computer software sending different modes.
 PRE_CRUISING_FLAG = 0  # Pre-loop mode
 CRUISING_SET = {'normal': 0, 'irfollow': 1, 'trackline': 2, 'avoiddrop': 3, 'avoidbyragar': 4, 'send_distance': 5,
@@ -128,3 +130,12 @@ COLOR_INDEX = 0  # Color range threshold index, changed in socket communication
 
 BARCODE_DATE = None  # QR code recognition data
 BARCODE_TYPE = None  # QR code recognition data type
+
+
+def set_start_servo():
+    go = Movement()
+    for i in range(1, 9):
+        go.move_servo(i, ANGLE[i - 1])
+
+
+set_start_servo()
