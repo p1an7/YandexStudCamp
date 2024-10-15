@@ -1,4 +1,4 @@
-ир # coding:utf-8
+# coding:utf-8
 """
 Raspberry Pi WiFi Wireless Video Car Robot Driver Source Code
 Author: Sence
