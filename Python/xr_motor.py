@@ -89,8 +89,8 @@ class RobotDirection(object):
         """
         Set the robot's movement direction to forward
         """
-        self.set_speed(1, cfg.LEFT_SPEED)
-        self.set_speed(2, cfg.RIGHT_SPEED)
+        self.set_speed(1, 40)
+        self.set_speed(2, 40)
         self.m1m2_forward()
         self.m3m4_forward()
 
@@ -98,8 +98,8 @@ class RobotDirection(object):
         """
         Set the robot's movement direction to backward
         """
-        self.set_speed(1, cfg.LEFT_SPEED)
-        self.set_speed(2, cfg.RIGHT_SPEED)
+        self.set_speed(1, 40)
+        self.set_speed(2, 40)
         self.m1m2_reverse()
         self.m3m4_reverse()
 
@@ -107,8 +107,8 @@ class RobotDirection(object):
         """
         Set the robot's movement direction to turn left
         """
-        self.set_speed(1, cfg.LEFT_SPEED)
-        self.set_speed(2, cfg.RIGHT_SPEED)
+        self.set_speed(1, 40)
+        self.set_speed(2, 40)
         self.m1m2_reverse()
         self.m3m4_forward()
 
@@ -116,8 +116,8 @@ class RobotDirection(object):
         """
         Set the robot's movement direction to turn right
         """
-        self.set_speed(1, cfg.LEFT_SPEED)
-        self.set_speed(2, cfg.RIGHT_SPEED)
+        self.set_speed(1, 40)
+        self.set_speed(2, 40)
         self.m1m2_forward()
         self.m3m4_reverse()
 
