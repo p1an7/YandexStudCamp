@@ -87,13 +87,15 @@ class InfraRed(object):
 
 
 class Ultrasonic(object):
-    def __init__(self):
+    def __init__(self, window_size=5):
         self.MAZE_ABLE = 0
         self.MAZE_CNT = 0
         self.MAZE_TURN_TIME = 0
         self.dis = 0
         self.s_L = 0
         self.s_R = 0
+        self.window_size = window_size
+        self.distance_history = []
 
     def get_distance(self):
         """
@@ -123,7 +125,11 @@ class Ultrasonic(object):
         # print("distance is %d" % distance)  # Print distance value
         if distance < 500:  # Normal detection distance value
             # print("distance is %d"%distance)
-            cfg.DISTANCE = round(distance, 2)
+            self.distance_history.append(distance)
+            if len(self.distance_history) > self.window_size:
+                self.distance_history.pop(0)
+            filtered_distance = sum(self.distance_history) / len(self.distance_history)
+            cfg.DISTANCE = round(filtered_distance, 2)
             return cfg.DISTANCE
         else:
             # print("distance is 0")  # If the distance value is greater than 5m, it is out of the detection range
