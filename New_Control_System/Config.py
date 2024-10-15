@@ -24,7 +24,7 @@ LASRT_RIGHT_SPEED = 100  	# Last robot right side speed
 SERVO_NUM = 1				# Servo number
 SERVO_ANGLE = 90			# Servo angle
 SERVO_ANGLE_LAST = 90		# Last servo angle
-ANGLE = [90, 90, 90, 90, 90, 90, 90, 5]		# Angles stored for 8 servos
+ANGLE = [140, 30, 90, 90, 90, 90, 90, 5]		# Angles stored for 8 servos
 
 DISTANCE = 0  			# Ultrasonic distance value
 AVOID_CHANGER = 1  		# Ultrasonic obstacle avoidance start flag
