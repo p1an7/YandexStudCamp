@@ -71,57 +71,62 @@ class Car_light(object):
         :return:
         """
         # print("All car lights are off")
-        self.set_ledgroup(cfg.CAR_LIGHT, 8, cfg.COLOR['black'])
-        time.sleep(0.01)
+        self.set_ledgroup(cfg.CAR_LIGHT, 8, cfg.COLOR['red'])
+        # self.set_ledgroup(cfg.CAR_LIGHT, 8, cfg.COLOR['black'])
+        # time.sleep(0.01)
 
     def left_turn_light(self):
         """
         Left turn flowing light
         :return:
         """
+        self.set_ledgroup(cfg.CAR_LIGHT, 8, cfg.COLOR['red'])
         # print("Turn left")
-        self.set_led(cfg.CAR_LIGHT, 6, cfg.COLOR['red'])
-        time.sleep(0.12)
-        self.set_led(cfg.CAR_LIGHT, 7, cfg.COLOR['red'])
-        time.sleep(0.12)
-        self.set_led(cfg.CAR_LIGHT, 8, cfg.COLOR['red'])
-        time.sleep(0.12)
-        self.set_ledgroup(cfg.CAR_LIGHT, 8, cfg.COLOR['black'])
-        time.sleep(0.12)
+        # self.set_led(cfg.CAR_LIGHT, 6, cfg.COLOR['red'])
+        # time.sleep(0.12)
+        # self.set_led(cfg.CAR_LIGHT, 7, cfg.COLOR['red'])
+        # time.sleep(0.12)
+        # self.set_led(cfg.CAR_LIGHT, 8, cfg.COLOR['red'])
+        # time.sleep(0.12)
+        # self.set_ledgroup(cfg.CAR_LIGHT, 8, cfg.COLOR['black'])
+        # time.sleep(0.12)
 
     def right_turn_light(self):
         """
         Right turn flowing light
         :return:
         """
-        self.set_led(cfg.CAR_LIGHT, 3, cfg.COLOR['red'])
-        time.sleep(0.12)
-        self.set_led(cfg.CAR_LIGHT, 2, cfg.COLOR['red'])
-        time.sleep(0.12)
-        self.set_led(cfg.CAR_LIGHT, 1, cfg.COLOR['red'])
-        time.sleep(0.12)
-        self.set_ledgroup(cfg.CAR_LIGHT, 8, cfg.COLOR['black'])
-        time.sleep(0.12)
+        self.set_ledgroup(cfg.CAR_LIGHT, 8, cfg.COLOR['red'])
+        # self.set_led(cfg.CAR_LIGHT, 3, cfg.COLOR['red'])
+        # time.sleep(0.12)
+        # self.set_led(cfg.CAR_LIGHT, 2, cfg.COLOR['red'])
+        # time.sleep(0.12)
+        # self.set_led(cfg.CAR_LIGHT, 1, cfg.COLOR['red'])
+        # time.sleep(0.12)
+        # self.set_ledgroup(cfg.CAR_LIGHT, 8, cfg.COLOR['black'])
+        # time.sleep(0.12)
 
     def forward_turn_light(self):
-        self.set_led(cfg.CAR_LIGHT, 3, cfg.COLOR['green'])
-        time.sleep(0.05)
-        self.set_led(cfg.CAR_LIGHT, 4, cfg.COLOR['green'])
-        time.sleep(0.05)
-        self.set_led(cfg.CAR_LIGHT, 5, cfg.COLOR['green'])
-        time.sleep(0.05)
-        self.set_led(cfg.CAR_LIGHT, 6, cfg.COLOR['green'])
-        time.sleep(0.12)
+        self.set_ledgroup(cfg.CAR_LIGHT, 8, cfg.COLOR['red'])
+        # self.set_led(cfg.CAR_LIGHT, 3, cfg.COLOR['green'])
+        # time.sleep(0.05)
+        # self.set_led(cfg.CAR_LIGHT, 4, cfg.COLOR['green'])
+        # time.sleep(0.05)
+        # self.set_led(cfg.CAR_LIGHT, 5, cfg.COLOR['green'])
+        # time.sleep(0.05)
+        # self.set_led(cfg.CAR_LIGHT, 6, cfg.COLOR['green'])
+        # time.sleep(0.12)
 
     def back_turn_light(self):
-        self.set_led(cfg.CAR_LIGHT, 3, cfg.COLOR['red'])
-        time.sleep(0.05)
-        self.set_led(cfg.CAR_LIGHT, 4, cfg.COLOR['red'])
-        time.sleep(0.05)
-        self.set_led(cfg.CAR_LIGHT, 5, cfg.COLOR['red'])
-        time.sleep(0.05)
-        self.set_led(cfg.CAR_LIGHT, 6, cfg.COLOR['red'])
-        time.sleep(0.12)
+        self.set_ledgroup(cfg.CAR_LIGHT, 8, cfg.COLOR['red'])
+        # self.set_led(cfg.CAR_LIGHT, 3, cfg.COLOR['red'])
+        # time.sleep(0.05)
+        # self.set_led(cfg.CAR_LIGHT, 4, cfg.COLOR['red'])
+        # time.sleep(0.05)
+        # self.set_led(cfg.CAR_LIGHT, 5, cfg.COLOR['red'])
+        # time.sleep(0.05)
+        # self.set_led(cfg.CAR_LIGHT, 6, cfg.COLOR['red'])
+        # time.sleep(0.12)
 
     def init_led(self):
         """
