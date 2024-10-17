@@ -1,0 +1,1 @@
+https://colab.research.google.com/github/MVRonkin/Deep-Learning-Foundation-Course/blob/main/2024_Demo/AILightingTransferLearning.ipynb#scrollTo=lu-4LkOWzX9z
