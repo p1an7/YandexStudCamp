@@ -187,6 +187,11 @@ class TopCamera:
             self.show([image])
         return image, contours
 
+    def crop(self, frame, x1, x2, y1, y2):
+        x1, x2 = sorted([x1, x2])
+        y1, y2 = sorted([y1, y2])
+        return frame[y1:y2, x1:x2]
+
 
 camera = TopCamera()
 # camera.display()
@@ -194,12 +199,14 @@ camera = TopCamera()
 
 import os
 
-dir_name = './left/left'
-new_dir = './undistort'
+dir_name = './left(2)/left'
+new_dir = './left(2)/crop'
 for file in os.listdir(dir_name):
     print(file)
     frame = cv2.imread(dir_name + '/' + file)
     frame = camera.undistort(frame)
+    frame = camera.crop(frame, 320, 1400, 130, 950)
+
     cv2.imwrite(new_dir + '/' + file, frame)
 
 # cv2.imshow()
