@@ -12,7 +12,7 @@ import numpy as np
 
 class TopCamera:
     def __init__(self):
-        self.direction = 'Right'
+        self.direction = 'Left'
         self.initUndistort()
         self.url = 'imgs/output_video.avi'
         self.cap = self.initCapture()
@@ -126,7 +126,7 @@ class TopCamera:
                 if iterations % 500 == 0:
                     print(iterations)
                     frame = self.undistort(frame)
-                    #frame = self.exposure(frame)
+                    # frame = self.exposure(frame)
                     frame = self.binarize(frame)
                     frame = frame[150:950, 400:1500]
                     # img, contours = self.find_contours(frame)
@@ -134,7 +134,7 @@ class TopCamera:
                     # image = cv2.cvtColor(frame, cv2.COLOR_GRAY2BGR)
                     # cv2.drawContours(image, biggest_3[1:], -1, (0, 255, 0), 2)
                     cv2.imwrite(f'{iterations // 500}-map.png', frame)
-                    #self.show([frame], True)
+                    # self.show([frame], True)
                     # biggest = sorted()
             else:
                 print('Capture Error')
@@ -188,34 +188,18 @@ class TopCamera:
         return image, contours
 
 
-def camera_pipeline():
-    CAMERA_NAME = "imgs/Right_1.avi"
-    cap = cv2.VideoCapture(CAMERA_NAME)
-
-    start = time.time()
-    num_frames = 1000
-    i = 1
-    while True:
-        if i == num_frames:
-            break
-        i += 1
-        ret, frame = cap.read()
-        if ret:
-            frame = cv2.remap(frame, map1, map2, interpolation=cv2.INTER_LINEAR, borderMode=cv2.BORDER_CONSTANT)
-            window_name = 'undistorted'
-            cv2.namedWindow(window_name, cv2.WINDOW_NORMAL)
-            cv2.resizeWindow(window_name, (1080, 720))
-            cv2.imshow(window_name, frame)
-        else:
-            print('error')
-            break
-        if cv2.waitKey(1) & 0xFF == ord('q'):
-            break
-    print(num_frames / (time.time() - start))
-
-    cv2.destroyAllWindows()
-    cap.release()
-
-
 camera = TopCamera()
-camera.display()
+# camera.display()
+
+
+import os
+
+dir_name = './left/left'
+new_dir = './undistort'
+for file in os.listdir(dir_name):
+    print(file)
+    frame = cv2.imread(dir_name + '/' + file)
+    frame = camera.undistort(frame)
+    cv2.imwrite(new_dir + '/' + file, frame)
+
+# cv2.imshow()
