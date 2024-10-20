@@ -11,6 +11,8 @@ import Navigation
 import Sensors
 import TCP_protocol
 import TCP_client
+import os
+import threading
 
 
 cfg.set_start_servo()
