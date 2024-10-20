@@ -1,14 +1,18 @@
 import time
-
+import Camera
+import Camera_Record
+import Manipulator
+import Manipulator_control
 from Servo import Servo
+import Config as cfg
+import GPIO
+import Movement
+import Navigation
+import Sensors
+import TCP_protocol
+import TCP_client
 
 
-s = Servo(0x18, 0x04)
-s.set_templates_for_protocol([0xff, 0x04, 8, 0xff], 2)
-g = s.get_templates_for_protocol()
-print(g)
-while True:
-    s.send_to_servo(90)
-    print("work")
-    time.sleep(1)
+cfg.set_start_servo()
+
 
