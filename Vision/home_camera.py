@@ -19,7 +19,7 @@ class TopCamera:
         self.device = 'cuda' if torch.cuda.is_available() else 'cpu'
         self.isVideo = True
         # Define the points for the trapezoid (clockwise order)
-        A = np.float32([[370, 130], [370, 930], [1380, 930], [1400, 180]])
+        A = np.float32([[370, 130], [370, 925], [1365, 930], [1400, 180]])
         B = np.float32([[370, 130], [370, 930], [1400, 930], [1400, 130]])
 
         # Calculate the perspective transformation matrix
@@ -200,7 +200,7 @@ class TopCamera:
 
     def crop_in_the_middle(self, frame):
         # Борьба с fisheye и с второй разметкой
-        frame = frame[130:, 200:, :]
+        frame = frame[20:, 100:, :]
         bin_frame = camera.binarize(frame)
         x, y = bin_frame.shape[1] // 2, bin_frame.shape[0] // 2
 
@@ -224,7 +224,19 @@ class TopCamera:
         return frame
 
     def warp_transform(self, frame):
-        return cv2.warpPerspective(frame, self.M, (1400, 930))
+        return cv2.warpPerspective(frame, self.M, (1600, 1080))
 
 
 camera = TopCamera()
+
+for file in os.listdir('left/left'):
+    print(file)
+    frame = cv2.imread('left/left/' + file)
+    frame = camera.undistort(frame)
+    frame = camera.warp_transform(frame)
+    try:
+        frame = camera.crop_in_the_middle(frame)
+        cv2.imwrite('left/cropped/' + file, frame)
+    except:
+        print('ERROR', file)
+        pass
