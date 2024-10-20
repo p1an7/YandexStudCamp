@@ -5,8 +5,11 @@ import numpy as np
 import GPIO as gpio
 import Config as cfg
 import keyboard
+import time
 
 from New_Control_System.Config_parser import HandleConfig
+
+from Navigation import getAngle
 
 path_data = os.path.dirname(os.path.realpath(__file__)) + '/data.ini'
 cfgparser = HandleConfig(path_data)
@@ -157,3 +160,24 @@ class Movement(object):
                 self.stop()
             elif keyboard.is_pressed('q'):
                 break
+    def angelrotate(self , turnspeed, angel ):
+        start_time = time.time()
+
+        while time.time()-start_time<=angel/turnspeed:
+            if angel<0:
+                self.left()
+            else:
+                self.right()
+        else:
+            self.stop()
+    def rotate(self):
+        while True:
+            self.angelrotate(self, похуй_константа_какая-то_псчитаем , getangel())
+            time.sleep(2)
+            if -0,0174533<getangel()<0,0174533:
+                break
+
+
+
+
+
