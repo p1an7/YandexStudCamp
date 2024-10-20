@@ -1,11 +1,20 @@
 import socket
+import time
+from time import sleep
 
-HOST = "192.168.2.104"
+#m = Movement()
+
+HOST = "localhost"
 PORT = 65432
 
 with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
     s.connect((HOST, PORT))
     while True:
-        s.sendall(b"Hello world")
+        s.sendall(b'0')
+        time.sleep(10)
+        s.sendall(b'0')
+        time.sleep(1)
         data = s.recv(1024)
-        print(data.decode('utf-8'))
+        data.decode('utf-8')
+        print(data)
+
