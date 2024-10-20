@@ -1,5 +1,6 @@
 import math as mt
-
+import time
+from time import sleep
 from Servo import Servo
 
 
@@ -49,3 +50,16 @@ class Manipulator():
 
     def set_open_close_arm(self, q4):
         self.__s3.send_to_servo(q4)
+
+    def take_object_return(self, x, y, q4, end_q1, end_q2):
+        self.set_open_close_arm(45)
+        angles = self.get_angles(x, y)
+        self.set_angle_servo_arm(angles[0], angles[1])
+        time.sleep(0.2)
+        self.set_open_close_arm(q4)
+        time.sleep(0.2)
+        self.set_angle_servo_arm(end_q1, end_q2)
+        time.sleep(0.2)
+        return self.get_coordinate(end_q1, end_q2)
+
+
