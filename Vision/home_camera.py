@@ -18,6 +18,12 @@ class TopCamera:
         self.cap = self.initCapture()
         self.device = 'cuda' if torch.cuda.is_available() else 'cpu'
         self.isVideo = True
+        # Define the points for the trapezoid (clockwise order)
+        A = np.float32([[370, 130], [370, 930], [1380, 930], [1400, 180]])
+        B = np.float32([[370, 130], [370, 930], [1400, 930], [1400, 130]])
+
+        # Calculate the perspective transformation matrix
+        self.M = cv2.getPerspectiveTransform(A, B)
 
     def split_video(self):
         iters = 0
@@ -40,7 +46,7 @@ class TopCamera:
 
     def initUndistort(self):
         DIM = (1920, 1080)
-        scale = 0.7
+        scale = 0.9
         if self.direction == 'Left':
             K = np.array([[1278.3329591423956, 0.0, 947.1793094545336], [0.0, 1272.263911500477, 545.6556001724595],
                           [0.0, 0.0, 1.0]])
@@ -192,21 +198,33 @@ class TopCamera:
         y1, y2 = sorted([y1, y2])
         return frame[y1:y2, x1:x2]
 
+    def crop_in_the_middle(self, frame):
+        # Борьба с fisheye и с второй разметкой
+        frame = frame[130:, 200:, :]
+        bin_frame = camera.binarize(frame)
+        x, y = bin_frame.shape[1] // 2, bin_frame.shape[0] // 2
+
+        np_row = bin_frame[y, :]
+        np_col = bin_frame[:, x]
+
+        mxx = -1
+        mxy = -1
+        mnx = bin_frame.shape[1]
+        mny = bin_frame.shape[0]
+        for i in range(bin_frame.shape[1]):
+            if np_row[i] == 0:
+                mnx = min(mnx, i)
+                mxx = max(mxx, i)
+        for i in range(bin_frame.shape[0]):
+            if np_col[i] == 0:
+                mny = min(mny, i)
+                mxy = max(mxy, i)
+
+        frame = frame[mny:mxy, mnx:mxx, :]
+        return frame
+
+    def warp_transform(self, frame):
+        return cv2.warpPerspective(frame, self.M, (1400, 930))
+
 
 camera = TopCamera()
-# camera.display()
-
-
-import os
-
-dir_name = './left(2)/left'
-new_dir = './left(2)/crop'
-for file in os.listdir(dir_name):
-    print(file)
-    frame = cv2.imread(dir_name + '/' + file)
-    frame = camera.undistort(frame)
-    frame = camera.crop(frame, 320, 1400, 130, 950)
-
-    cv2.imwrite(new_dir + '/' + file, frame)
-
-# cv2.imshow()
