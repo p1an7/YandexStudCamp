@@ -1,4 +1,5 @@
 from Movement import Movement
+from Manipulator import take_object_return
 p = b'm/123/f/60'
 def parse(package):
     m = Movement()
@@ -25,13 +26,27 @@ print(parse(p))
                 for i in int(normalize_package[3]):
                     m.stop()
         elif normalize_package[1] == '1':
+            #TODO Написать поворот на угол
+            pass
 
     elif normalize_package[0] == 's':
         if normalize_package[1] == '0':
-            return 'Invalid status'
+            if normalize_package[2] == 'O':
+                take_object_return()
+            if normalize_package[2] == 'P':
+                #TODO написать метод чтобы класть
+                pass
+            if normalize_package[2] == 'V':
+                #TODO
+                pass
+        if normalize_package[1] == '1':
+
+
+
+
+
         elif normalize_package[1] == '1':
 
-            elif normalize_package[1] == '2':
 
 
 
