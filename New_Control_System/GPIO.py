@@ -33,9 +33,12 @@ GPIO.setup(ENA, GPIO.OUT, initial=GPIO.LOW)
 GPIO.setup(IN3, GPIO.OUT, initial=GPIO.LOW)
 GPIO.setup(IN4, GPIO.OUT, initial=GPIO.LOW)
 GPIO.setup(ENB, GPIO.OUT, initial=GPIO.LOW)
+
+# Скорость правого движка
 ENA_pwm = GPIO.PWM(ENA, 1000)
 ENA_pwm.start(0)
 ENA_pwm.ChangeDutyCycle(100)
+# Скорость левого движка
 ENB_pwm = GPIO.PWM(ENB, 1000)
 ENB_pwm.start(0)
 ENB_pwm.ChangeDutyCycle(100)
