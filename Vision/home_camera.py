@@ -236,6 +236,7 @@ for file in os.listdir('left/left'):
     frame = camera.warp_transform(frame)
     try:
         frame = camera.crop_in_the_middle(frame)
+        frame = camera.binarize(frame)
         cv2.imwrite('left/cropped/' + file, frame)
     except:
         print('ERROR', file)
