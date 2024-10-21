@@ -49,7 +49,9 @@ class Manipulator():
         self.__s3.send_to_servo(q3)
 
     def set_open_close_arm(self, q4):
-        self.__s3.send_to_servo(q4)
+        self.__s4.send_to_servo(q4)
+
+
 
     def take_object_return(self, x, y, q4, end_q1, end_q2):
         self.set_open_close_arm(45)

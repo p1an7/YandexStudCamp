@@ -1,15 +1,15 @@
+from builtins import float, object
 import os
-from builtins import object
-
+from socket import *
+import numpy as np
+import GPIO as gpio
+import Config as cfg
 import keyboard
 
-import Config as cfg
-import GPIO as gpio
 from New_Control_System.Config_parser import HandleConfig
 
 path_data = os.path.dirname(os.path.realpath(__file__)) + '/data.ini'
 cfgparser = HandleConfig(path_data)
-
 
 class Movement(object):
     def __init__(self):
@@ -89,7 +89,6 @@ class Movement(object):
         self.set_speed(2, cfg.RIGHT_SPEED)
         self.m1m2_reverse()
         self.m3m4_reverse()
-
     def forwardslow(self):
         """
         Set the robot's movement direction to backward
@@ -98,7 +97,6 @@ class Movement(object):
         self.set_speed(2, 50)
         self.m1m2_reverse()
         self.m3m4_reverse()
-
     def right(self):
         """
         Set the robot's movement direction to turn left
@@ -113,7 +111,7 @@ class Movement(object):
         Set the robot's movement direction to turn left
         """
         self.set_speed(1, 40)
-        self.set_speed(2, 40)
+        self.set_speed(2,40)
         self.m1m2_reverse()
         self.m3m4_forward()
 
@@ -125,7 +123,6 @@ class Movement(object):
         self.set_speed(2, cfg.RIGHT_SPEED)
         self.m1m2_forward()
         self.m3m4_reverse()
-
     def leftslow(self):
         """
         Set the robot's movement direction to turn right
@@ -134,7 +131,6 @@ class Movement(object):
         self.set_speed(2, 40)
         self.m1m2_forward()
         self.m3m4_reverse()
-
     def stop(self):
         """
         Set the robot's movement direction to stop
