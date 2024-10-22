@@ -1,4 +1,3 @@
-from socket import *
 import numpy as np
 
 from Movement import Movement
@@ -19,8 +18,12 @@ VOICE_MOD_SET = {'normal': 0, 'openlight': 1, 'closelight': 2, 'forward': 3, 'ba
 
 PATH_DECT_FLAG = 0  # Camera line patrol flag, 0 for patrolling black line (light-colored ground, dark line); 1 for patrolling white line (dark-colored ground, light line).
 
-LEFT_SPEED = 80  # Robot left side speed
-RIGHT_SPEED = 80  # Robot right side speed
+LEFT_SPEED = 80
+LEFT_SPEED1 = 10
+LEFT_SPEED2 = 5  # Robot left side speed
+RIGHT_SPEED = 80
+RIGHT_SPEED1 = 10
+RIGHT_SPEED2 = 5  # Robot right side speed
 LASRT_LEFT_SPEED = 100  # Last robot left side speed
 LASRT_RIGHT_SPEED = 100  # Last robot right side speed
 

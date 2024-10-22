@@ -3,12 +3,12 @@ import time
 
 import threading
 
-from Detect_and_rotation import Detection_object
+#from Detect_and_rotation import Detection_object
 
-HOST = "localhost"
+HOST = "192.168.2.173"
 PORT = 65432
 buf = "1"
-detection_object = Detection_object()
+#detection_object = Detection_object()
 lock = threading.Lock()
 
 
@@ -23,7 +23,6 @@ def newss():
         with conn:
             print(f"Подключено к {addr}")
             conn.settimeout(300)  # Установите таймаут для recv
-            last_received_time = time.time()
             while True:
                 try:
                     data = conn.recv(1024)
@@ -39,9 +38,7 @@ def newss():
 
                 except socket.timeout:
                     print("Таймаут соединения, проверяем активность...")
-                    # if time.time() - last_received_time > 60:  # Если прошло больше 60 секунд без активности
-                    #     print("Закрываем соединение из-за неактивности.")
-                    #     break
+
                 except Exception as e:
                     print(f"Ошибка в newss: {e}")
                     break
